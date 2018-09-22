@@ -1,21 +1,43 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {  Route, Switch, withRouter } from "react-router-dom";
+import  Header  from './Header';
+import  Configuracoes from './Configuracoes';
+import  Home from './Home';
+import Usuario from './Usuario';
 
-class App extends Component {
+export class GaloTweet extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      logado: false
+    };
+  }
+
+  login  = () => {
+    this.setState({
+      logado: true
+    })
+  }
+
+  logout  = () => {
+    this.setState({
+      logado: false
+    })
+    this.props.history.push('/')
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+        <div>
+          <Header logout={this.logout} login={this.login} logado={this.state.logado} />
+          <Switch >
+              <Route path="/" exact component={Home} />
+              <Route path="/configuracoes" exact component={Configuracoes} />
+              <Route path="/usuario" exact component={Usuario} />
+          </Switch>
+        </div>
     );
   }
 }
 
-export default App;
+export default withRouter(GaloTweet);
